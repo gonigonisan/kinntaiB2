@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       # &&は取得したユーザーオブジェクトが有効か判定するため
       log_in user
+      remember user
       redirect_to user
     else
       flash.now[:danger] = "証人に失敗しました。"
