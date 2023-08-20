@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       # &&は取得したユーザーオブジェクトが有効か判定するため
       log_in user
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_to user
+      redirect_back_or user
     else
       flash.now[:danger] = "証人に失敗しました。"
       render :new
