@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy,  :edit_basic_info, :update_basic_info]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info]
+  before_action :set_one_month, only: :show
 
   def index
     @users = User.paginate(page: params[:page])
@@ -48,9 +49,12 @@ class UsersController < ApplicationController
   end
 
   def update_basic_info
-     User.all.update_all(:basic_time, :work_time)
-     flash[:success] = "情報を更新しました"
-     redirect_to users_url
+    @users = User.all
+    @users.each do |user|
+      user.update(basic_time: params[:basic_time], work_time: params[:work_time])
+    end
+    flash[:success] = "情報を更新しました"
+    redirect_to users_url
   end
 
   private
